@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import androidx.appcompat.widget.SearchView;
 
@@ -36,7 +37,7 @@ public class BookListActivity extends AppCompatActivity {
     private BookAdapter bookAdapter;
     private BookClient client;
     private ArrayList<Book> abooks;
-
+    ProgressBar pb;
     public static final String KEY_BOOK_DETAIL = "book";
 
     @Override
@@ -46,7 +47,7 @@ public class BookListActivity extends AppCompatActivity {
 
         rvBooks = findViewById(R.id.rvBooks);
         abooks = new ArrayList<>();
-
+        pb = (ProgressBar) findViewById(R.id.pbLoading);
         // Initialize the adapter
         bookAdapter = new BookAdapter(this, abooks);
         bookAdapter.setOnItemClickListener(new BookAdapter.OnItemClickListener() {
@@ -79,6 +80,8 @@ public class BookListActivity extends AppCompatActivity {
     // Executes an API call to the OpenLibrary search endpoint, parses the results
     // Converts them into an array of book objects and adds them to the adapter
     private void fetchBooks(String query) {
+        pb.setVisibility(ProgressBar.VISIBLE);
+        // run a background job and once complete
         client = new BookClient();
         client.getBooks(query, new JsonHttpResponseHandler() {
             @Override
@@ -86,6 +89,7 @@ public class BookListActivity extends AppCompatActivity {
                 try {
                     JSONArray docs;
                     if (response != null) {
+                        pb.setVisibility(ProgressBar.INVISIBLE);
                         // Get the docs json array
                         docs = response.jsonObject.getJSONArray("docs");
                         // Parse json array into array of model objects
@@ -125,8 +129,8 @@ public class BookListActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // perform query here
-                // Fetch the data remotely
                 fetchBooks(query);
+
 
                 // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
                 // see https://code.google.com/p/android/issues/detail?id=24599
@@ -157,4 +161,6 @@ public class BookListActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
