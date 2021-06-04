@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.codepath.android.booksearch" >
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -20,7 +21,8 @@
         </activity>
         <activity
             android:name=".activities.BookDetailActivity"
-            android:label="@string/title_activity_book_detail" >
+            android:label="@string/title_activity_book_detail"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

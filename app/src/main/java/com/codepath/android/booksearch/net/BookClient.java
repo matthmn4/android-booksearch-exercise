@@ -12,6 +12,7 @@ public class BookClient {
 
     public BookClient() {
         this.client = new AsyncHttpClient();
+        client.setTimeout(20 * 1000);
     }
 
     private String getApiUrl(String relativeUrl) {
@@ -21,7 +22,7 @@ public class BookClient {
     // Method for accessing the search API
     public void getBooks(final String query, JsonHttpResponseHandler handler) {
         try {
-            String url = getApiUrl("search.json?q=");
+            String url = getApiUrl("search.json?q=" + query);
             client.get(url + URLEncoder.encode(query, "utf-8"), handler);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

@@ -4,4 +4,10 @@
     tools:context="com.codepath.android.booksearch.activities.BookDetailActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_item_share"
+        app:showAsAction="ifRoom"
+        android:title="@string/share"
+        app:actionProviderClass="androidx.appcompat.widget.ShareActionProvider"
+        />
 </menu>
